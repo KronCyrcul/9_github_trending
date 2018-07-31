@@ -8,6 +8,9 @@ def get_trending_repositories(top_size):
     request = "https://api.github.com/search/repositories?q=+created:>{}&sort=star"
     today = datetime.datetime.today()
     week_ago_date = today - datetime.timedelta(days=7)
+    search_prop = {"q": u"+created:>{}".format(
+        week_ago_date.strftime("%Y-%m-%d")),
+        "sort": "star" }
     request_repo = requests.get(request.format(
         week_ago_date.strftime("%Y-%m-%d")))
     repos_dict = request_repo.json()
@@ -43,7 +46,7 @@ def get_open_issues_list(repo_owner, repo_name):
 
 
 def print_trending_repositories(trending_repositories):
-    print("Топ 20 репозиториев:\n")
+    print("Топ 20 репозиториев:")
     for repo in trending_repositories:
         (repo_owner, repo_name, star_count,
             open_issues_amount, open_issues_urls) = repo
@@ -55,5 +58,6 @@ def print_trending_repositories(trending_repositories):
 
 
 if __name__ == "__main__":
-    trending_repositories = get_trending_repositories(20)
+    top_size = 20
+    trending_repositories = get_trending_repositories(top_size)
     print_trending_repositories(trending_repositories)
