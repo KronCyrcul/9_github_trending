@@ -5,15 +5,14 @@ import datetime
 
 def get_trending_repositories(top_size):
     trending_repositories = []
-    request = "https://api.github.com/search/repositories?q=+created:>{}&sort=star"
+    request = "https://api.github.com/search/repositories"
     today = datetime.datetime.today()
     week_ago_date = today - datetime.timedelta(days=7)
-    search_prop = {"q": u"+created:>{}".format(
+    search_params = {"q": " created:>{}".format(
         week_ago_date.strftime("%Y-%m-%d")),
         "sort": "star" }
-    request_repo = requests.get(request.format(
-        week_ago_date.strftime("%Y-%m-%d")))
-    repos_dict = request_repo.json()
+    response = requests.get(request, params=search_params)
+    repos_dict = response.json()
     for repository_info in range(top_size):
         repo_owner = repos_dict['items'][repository_info]['owner']['login']
         repo_name = repos_dict['items'][repository_info]['name']
@@ -39,8 +38,8 @@ def get_open_issues_urls(repo_owner, repo_name):
 
 
 def get_open_issues_list(repo_owner, repo_name):
-    request = "https://api.github.com/repos/{}/{}/issues"
-    open_issues_response = requests.get(request.format(repo_owner, repo_name))
+    request_url = "https://api.github.com/repos/{}/{}/issues"
+    open_issues_response = requests.get(request_url.format(repo_owner, repo_name))
     open_issues_list = open_issues_response.json()
     return open_issues_list
 
