@@ -13,9 +13,7 @@ def get_trending_repositories(top_size, days_ago):
         "sort": "star"}
     response = requests.get(request_url, params=search_params)
     repos_list = response.json()['items']
-    for repository in repos_list[:top_size]:
-        trending_repositories.append(repository)
-    return trending_repositories
+    return trending_repositories[:top_size]
 
 
 def get_trending_repositories_info(trending_repositories):
