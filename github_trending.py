@@ -28,7 +28,7 @@ def get_trending_repositories_info(trending_repositories):
             if len(open_issues_list) > 0]
         trending_repositories_info.append([repo_owner, repo_name, star_count,
             open_issues_amount, open_issues_urls])
-    return (trending_repositories_info)
+    return trending_repositories_info
 
 
 def get_open_issues_list(repo_owner, repo_name):
